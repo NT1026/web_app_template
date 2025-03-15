@@ -25,6 +25,9 @@ docker run --name mysql_database -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABA
 ```
 
 ### Start Server
+1. Change directory to `backend` (necessary)
+
+2. Run `main.py` to start uvicorn server
 ```
 python main.py
 ```
