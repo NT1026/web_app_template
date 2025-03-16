@@ -161,4 +161,4 @@ cython_debug/
 
 # Auto Generate
 config.json
-database/fake_data.json
+database/fake_db.json
