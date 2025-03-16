@@ -1,33 +1,40 @@
 # Web Application Template
 
 ## Frontend
-(TODO)
+
+- Framework: Next.js
+
+### Prepared 
+
+- Need Node.js and npm
+- Install node packages in `package.json`
+```
+npm install 
+```
+
+### Run Frontend Server (for development)
+
+- Execute `npm run dev` command to start development frontend server in `frontend` directory
 
 ## Backend
-
-### Requirements
 
 - RESTful API framework: FastAPI
 - Web Server framework: Uvicorn
 - Database: MySQL
 - Database ORM Model: Pydantic + SQLAlchemy
 
-### Run Database by Docker
+### Prepared
 
-1. Pull MySQL image
+- Install python modules in `requirements.txt``
 ```
-docker pull mysql:8.1
+pip install -r requirements.txt
 ```
 
-2. Run container
+- Run MySQL server container (default: 8888 port)
 ```
 docker run --name mysql_database -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test_database -p 8888:3306 --volume mysql_database:/var/lib/mysql -d mysql:8.1
 ```
 
-### Start Server
-1. Change directory to `backend` (necessary)
+### Run Backend Server
 
-2. Run `main.py` to start uvicorn server
-```
-python main.py
-```
+- Run `main.py` to start backend server in `backend` directory
