@@ -44,7 +44,7 @@ async def login(form_data: AuthSchema.login_form_schema):
 async def refresh(refersh_data: AuthSchema.RefreshRequest):
     """
     Refresh token with the following information:
-    - **token**
+    - **refresh_token**
     """
     payload: dict = await verify_token(refersh_data.refresh_token)
     if payload is None:
