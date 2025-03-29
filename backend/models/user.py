@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped, relationship
-from typing import Optional 
+from typing import Optional
 
 from models.base import Base, BaseType
 
@@ -17,4 +17,3 @@ class User(Base):
 
     def __repr__(self) -> str:
         return f"User(uid={self.uid}, password={self.password}, name={self.name})"
-    

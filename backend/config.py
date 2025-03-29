@@ -20,7 +20,4 @@ PORT = config.port
 
 # Auto update old config
 with open("config.json", "wb") as config_file:
-    config_file.write(dumps(
-        config.model_dump(),
-        option=OPT_INDENT_2
-    ))
+    config_file.write(dumps(config.model_dump(), option=OPT_INDENT_2))

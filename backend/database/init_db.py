@@ -3,9 +3,7 @@ import json
 from auth.passwd import get_password_hash
 from models.user import User as UserModel
 
-model = {
-    "users": UserModel
-}
+model = {"users": UserModel}
 
 
 class FakeDB:
@@ -19,7 +17,6 @@ class FakeDB:
             for entity in entity_list:
                 if entity.get("password"):
                     entity["password"] = get_password_hash(entity["password"])
-                
+
                 row = model[table](**entity)
                 db_session.add(row)
-                

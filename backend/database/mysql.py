@@ -9,10 +9,11 @@ from models.user import User
 engine = create_async_engine(
     url="mysql+aiomysql://root:password@localhost:8888/test_database",
     echo=True,
-    pool_pre_ping=True
+    pool_pre_ping=True,
 )
 SessionLocal = async_sessionmaker(bind=engine, expire_on_commit=False, autocommit=False)
 gen_fake_db = GenFakeDB()
+
 
 @asynccontextmanager
 async def get_db():
@@ -46,7 +47,7 @@ def db_session_decorator(func):
             kwargs["db_session"] = db_session
             result = await func(*args, **kwargs)
             return result
-        
+
     return wrapper
 
 

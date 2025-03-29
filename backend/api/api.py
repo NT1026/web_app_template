@@ -4,11 +4,7 @@ from uvicorn import Config, Server
 
 from config import HOST, PORT
 
-from .routers import (
-    auth_router,
-    info_router,
-    user_router
-)
+from .routers import auth_router, info_router, user_router
 
 app = FastAPI()
 
@@ -26,11 +22,7 @@ app.add_middleware(
 
 
 async def api_run():
-    config = Config(
-        app=app,
-        host=HOST,
-        port=PORT
-    )
+    config = Config(app=app, host=HOST, port=PORT)
     server = Server(config=config)
 
     await server.serve()

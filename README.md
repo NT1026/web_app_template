@@ -14,7 +14,9 @@ npm install
 
 ### Run Frontend Server (for development)
 
-- Execute `npm run dev` command to start development frontend server in `frontend` directory
+- Work directory: `/frontend`
+
+- Execute `npm run dev` command to start development frontend server
 
 ## Backend
 
@@ -37,4 +39,5 @@ docker run --name mysql_database -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABA
 
 ### Run Backend Server
 
-- Run `main.py` to start backend server in `backend` directory
+- Work directory: `backend`
+- Run `main.py` to start backend server

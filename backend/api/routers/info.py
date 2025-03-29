@@ -1,9 +1,7 @@
 from fastapi import APIRouter
 
-router = APIRouter(
-    prefix="/info",
-    tags=["Info"]
-)
+router = APIRouter(prefix="/info", tags=["Info"])
+
 
 @router.get("/version")
 def get_version() -> str:

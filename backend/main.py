@@ -3,6 +3,7 @@ from asyncio import run
 from api import api_run
 from database.mysql import close_db, init_db
 
+
 async def main():
     await init_db()
     await api_run()

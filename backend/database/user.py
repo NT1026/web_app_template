@@ -4,11 +4,7 @@ import string
 
 class User:
     def __init__(self):
-        self.default = {
-            "uid": None,
-            "password": None,
-            "name": None
-        }
+        self.default = {"uid": None, "password": None, "name": None}
 
         self.results = []
 
@@ -18,20 +14,19 @@ class User:
 
     def generate(self):
         # Generate 1 admin
-        self.results.append({
-            **self.default,
-            "uid": "admin",
-            "password": "admin",
-            "name": "admin"
-        })
+        self.results.append(
+            {**self.default, "uid": "admin", "password": "admin", "name": "admin"}
+        )
 
         # Generate 9 users
         for _ in range(9):
-            self.results.append({
-                **self.default,
-                "uid": self.random_characters(8),
-                "password": self.random_characters(8),
-                "name": self.random_characters(8)
-            })
-    
+            self.results.append(
+                {
+                    **self.default,
+                    "uid": self.random_characters(8),
+                    "password": self.random_characters(8),
+                    "name": self.random_characters(8),
+                }
+            )
+
         return self.results

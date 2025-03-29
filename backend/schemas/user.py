@@ -9,13 +9,7 @@ class UserCreate(BaseModel):
 
     model_config = {
         "json_schema_extra": {
-            "examples": [
-                { 
-                    "uid": "user",
-                    "password": "password",
-                    "name": "user"
-                }
-            ]
+            "examples": [{"uid": "user", "password": "password", "name": "user"}]
         }
     }
 
@@ -27,16 +21,8 @@ class UserRead(BaseModel):
 
 class UserUpdate(BaseModel):
     name: str = Field(default=None, min_length=1, max_length=50)
-    
-    model_config = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "name": "user1"
-                }
-            ]
-        }
-    }
+
+    model_config = {"json_schema_extra": {"examples": [{"name": "user1"}]}}
 
 
 class UserUpdatePassword(BaseModel):
