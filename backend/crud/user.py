@@ -61,12 +61,3 @@ class UserCrudManager:
         await db_session.commit()
 
         return
-
-    async def login(self, uid: str, db_session: AsyncSession):
-        stmt = select(UserModel.uid, UserModel.password, UserModel.name).where(
-            UserModel.uid == uid
-        )
-        result = await db_session.execute(stmt)
-        user = result.first()
-
-        return user if user else None

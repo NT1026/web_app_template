@@ -3,10 +3,10 @@ import sqlalchemy
 from datetime import datetime, timedelta, timezone
 from fastapi import HTTPException, status
 
+from config import JWT_SECRET
 from models.user import User as UserModel
 from schemas import auth as AuthSchema
 
-secret = "secret"
 algorithm = "HS256"
 
 token_expired = HTTPException(
@@ -23,7 +23,7 @@ invalid_token = HTTPException(
 
 
 async def create_jwt(data: sqlalchemy.engine.row.Row):
-    return jwt.encode(dict(data._mapping), secret, algorithm)
+    return jwt.encode(dict(data._mapping), JWT_SECRET, algorithm)
 
 
 async def create_access_token(data: UserModel):
@@ -33,7 +33,7 @@ async def create_access_token(data: UserModel):
     to_encode.pop("password")
     to_encode.update({"exp": expire})
 
-    return jwt.encode(to_encode, secret, algorithm)
+    return jwt.encode(to_encode, JWT_SECRET, algorithm)
 
 
 async def create_refresh_token(data: UserModel):
@@ -41,7 +41,7 @@ async def create_refresh_token(data: UserModel):
 
     to_encode = {"uid": data.uid, "exp": expire}
 
-    return jwt.encode(to_encode, secret, algorithm)
+    return jwt.encode(to_encode, JWT_SECRET, algorithm)
 
 
 async def create_token_pair(data: UserModel):
@@ -55,7 +55,7 @@ async def create_token_pair(data: UserModel):
 
 async def verify_token(token: str):
     try:
-        return jwt.decode(token, secret, algorithm)
+        return jwt.decode(token, JWT_SECRET, algorithm)
 
     except jwt.ExpiredSignatureError:
         raise token_expired

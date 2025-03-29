@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from auth.jwt import create_token_pair, verify_token
 from auth.passwd import verify_password
-from crud.user import UserCrudManager
+from crud.auth import AuthCrudManager
 from schemas import auth as AuthSchema
 
 exception_invalid_login = HTTPException(
@@ -17,7 +17,7 @@ invalid_token = HTTPException(
     headers={"WWW-Authenticate": "Bearer"},
 )
 
-UserCrud = UserCrudManager()
+AuthCrud = AuthCrudManager()
 router = APIRouter(prefix="/auth", tags=["Users"])
 
 
@@ -29,7 +29,7 @@ async def login(form_data: AuthSchema.login_form_schema):
     - **password**
 
     """
-    user_in_db = await UserCrud.login(form_data.username)
+    user_in_db = await AuthCrud.user_login(form_data.username)
 
     if user_in_db is None:
         raise exception_invalid_login
@@ -54,6 +54,6 @@ async def refresh(refersh_data: AuthSchema.RefreshRequest):
     if uid is None:
         raise invalid_token
 
-    user_in_db = await UserCrud.login(uid)
+    user_in_db = await AuthCrud.user_login(uid)
 
     return await create_token_pair(user_in_db)

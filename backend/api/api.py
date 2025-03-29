@@ -4,12 +4,11 @@ from uvicorn import Config, Server
 
 from config import HOST, PORT
 
-from .routers import auth_router, info_router, user_router
+from .routers import auth_router, user_router
 
 app = FastAPI()
 
 app.include_router(auth_router)
-app.include_router(info_router)
 app.include_router(user_router)
 
 app.add_middleware(

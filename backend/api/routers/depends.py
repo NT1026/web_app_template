@@ -5,6 +5,7 @@ from crud.user import UserCrudManager
 UserCrud = UserCrudManager()
 
 
+# Check if the user exists
 async def check_user_id(uid: str):
     user = await UserCrud.get(uid)
     if not user:
