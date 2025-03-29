@@ -27,7 +27,7 @@ npm install
 
 ### Prepared
 
-- Install python modules in `requirements.txt``
+- Install python modules in `requirements.txt`
 ```
 pip install -r requirements.txt
 ```
