@@ -1,38 +1,37 @@
 import { useState } from "react";
 
 import Layout from "../components/layout";
-import { login } from "../api/login";
+import { changeUsername } from "../api/user";
 
-export default function Login() {
+export default function ChangeUsername() {
     const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [user, setUser] = useState(null);
+    const [newUsername, setNewUsername] = useState("");
+    const [response, setResponse] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const handleLogin = async (username, password) => {
-        setUser(null);
+    const handleChangeUsername = async (username, newUsername) => {
+        setResponse(null);
         setError(null);
         setLoading(true);
 
-        const user = await login(username, password);
+        const res = await changeUsername(username, newUsername);
         setLoading(false);
-
-        if (user.error) {
-            setError(user.error);
+        if (res.error) {
+            setError(res.error);
         } else {
-            setUser(user);
+            setResponse(res);
         }
     };
 
     return (
         <Layout returnBack>
             <div>
-                <h1>Login</h1>
+                <h1>Change Username</h1>
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        handleLogin(username, password);
+                        handleChangeUsername(username, newUsername);
                     }}
                 >
                     <input
@@ -43,18 +42,18 @@ export default function Login() {
                         required
                     />
                     <input
-                        type="password"
-                        placeholder="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        type="text"
+                        placeholder="new username"
+                        value={newUsername}
+                        onChange={(e) => setNewUsername(e.target.value)}
                         required
                     />
                     <button type="submit" disabled={loading}>
-                        {loading ? "Logging in..." : "Login"}
+                        {loading ? "Changing Username..." : "Change"}
                     </button>
                 </form>
                 {error && <p style={{ color: "red" }}>{error}</p>}
-                {user && <p>Welcome, {user.name}!</p>}
+                {response && <p>Your username changes successfully!</p>}
             </div>
         </Layout>
     );

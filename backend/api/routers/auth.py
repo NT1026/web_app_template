@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Request, status
+from fastapi.responses import JSONResponse
 
 from auth.jwt import create_token_pair, verify_token
 from auth.passwd import verify_password
@@ -37,16 +38,37 @@ async def login(form_data: AuthSchema.login_form_schema):
     if not verify_password(form_data.password, user_in_db.password):
         raise exception_invalid_login
 
-    return await create_token_pair(user_in_db)
+    # Create access_token and refresh_token
+    token_pair = await create_token_pair(user_in_db)
+
+    # Set cookies for access_token and refresh_token
+    response = JSONResponse(content=token_pair.model_dump())
+    response.set_cookie(
+        key="access_token",
+        value=token_pair.access_token,
+        httponly=True,
+        secure=True,
+        samesite="None",
+        path="/",
+    )
+    response.set_cookie(
+        key="refresh_token",
+        value=token_pair.refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="None",
+        path="/",
+    )
+
+    return response
 
 
 @router.post("/refresh", response_model=AuthSchema.Token)
-async def refresh(refersh_data: AuthSchema.RefreshRequest):
+async def refresh(request: Request):
     """
-    Refresh token with the following information:
-    - **refresh_token**
+    Use the refresh token (in Cookie header) to generate a new access token pair.
     """
-    payload: dict = await verify_token(refersh_data.refresh_token)
+    payload: dict = await verify_token(request.cookies.get("refresh_token"))
     if payload is None:
         raise invalid_token
 
@@ -56,4 +78,26 @@ async def refresh(refersh_data: AuthSchema.RefreshRequest):
 
     user_in_db = await AuthCrud.user_login(uid)
 
-    return await create_token_pair(user_in_db)
+    # Create access_token and refresh_token
+    token_pair = await create_token_pair(user_in_db)
+
+    # Set cookies for access_token and refresh_token
+    response = JSONResponse(content=token_pair.model_dump())
+    response.set_cookie(
+        key="access_token",
+        value=token_pair.access_token,
+        httponly=True,
+        secure=True,
+        samesite="None",
+        path="/",
+    )
+    response.set_cookie(
+        key="refresh_token",
+        value=token_pair.refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="None",
+        path="/",
+    )
+
+    return response

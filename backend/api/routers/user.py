@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
 
 from .depends import check_user_id
 from auth.jwt import verify_token
 from auth.passwd import get_password_hash
 from crud.user import UserCrudManager
+from schemas import auth as AuthSchema
 from schemas import user as UserSchema
 
 permission_denied = HTTPException(
@@ -70,9 +70,9 @@ async def get_user(uid: str):
 
 @router.put("/{uid}", status_code=status.HTTP_204_NO_CONTENT)
 async def update_user(
+    token: AuthSchema.oauth2_token_scheme,
     updateUser: UserSchema.UserUpdate,
     uid: str = Depends(check_user_id),
-    token: str = Depends(OAuth2PasswordBearer(tokenUrl="auth/login")),
 ):
     """
     Update the user with at least one of the following information:
@@ -88,9 +88,9 @@ async def update_user(
 
 @router.put("/{uid}/password", status_code=status.HTTP_204_NO_CONTENT)
 async def update_user_password(
+    token: AuthSchema.oauth2_token_scheme,
     updateUser: UserSchema.UserUpdatePassword,
     uid: str = Depends(check_user_id),
-    token: str = Depends(OAuth2PasswordBearer(tokenUrl="auth/login")),
 ):
     """
     Update the password of the particular user.
