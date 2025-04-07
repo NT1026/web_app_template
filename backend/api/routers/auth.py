@@ -66,7 +66,7 @@ async def login(form_data: AuthSchema.login_form_schema):
 @router.post("/refresh", response_model=AuthSchema.Token)
 async def refresh(request: Request):
     """
-    Use the refresh token (in Cookie header) to generate a new access token pair.
+    Use the refresh_token (in Cookie header) to generate a new access token pair.
     """
     payload: dict = await verify_token(request.cookies.get("refresh_token"))
     if payload is None:
@@ -98,6 +98,34 @@ async def refresh(request: Request):
         secure=True,
         samesite="None",
         path="/",
+    )
+
+    return response
+
+
+@router.post("/logout")
+async def logout():
+    """
+    Delete the access_token and refresh_token cookies.
+    """
+    response = JSONResponse(content={"message": "Logged out successfully"})
+    response.set_cookie(
+        key="access_token",
+        value="",
+        httponly=True,
+        secure=True,
+        samesite="None",
+        path="/",
+        max_age=0,
+    )
+    response.set_cookie(
+        key="refresh_token",
+        value="",
+        httponly=True,
+        secure=True,
+        samesite="None",
+        path="/",
+        max_age=0,
     )
 
     return response

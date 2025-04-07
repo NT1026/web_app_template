@@ -1,4 +1,4 @@
-import { refreshToken } from "../api/login";
+import { refreshToken } from "./auth";
 
 export async function changeUsername(username, newUsername) {
     try {
@@ -18,7 +18,6 @@ export async function changeUsername(username, newUsername) {
                 body: JSON.stringify({
                     name: newUsername,
                 }),
-                credentials: "include",
             }
         );
 

@@ -57,3 +57,27 @@ export async function refreshToken() {
         return { error: error.message };
     }
 }
+
+
+export async function logout() {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_END_POINT}/auth/logout`,
+            {
+                method: "POST",
+                headers: {
+                    accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            }
+        );
+
+        // Error handling
+        if (!response.ok) throw new Error("Failed to logout");
+
+        return { status: "success" };
+    } catch (error) {
+        return { error: error.message };
+    }
+}

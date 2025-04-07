@@ -2,7 +2,7 @@ import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
 import Layout from "../components/layout";
-import { refreshToken } from "../api/login";
+import { refreshToken } from "../api/auth";
 
 export default function Login() {
     const [user, setUser] = useState(null);
@@ -15,6 +15,13 @@ export default function Login() {
         setLoading(true);
 
         const access_token = await refreshToken();
+
+        if (access_token.error) {
+            setLoading(false);
+            setError(access_token.error);
+            return;
+        }
+
         const user = jwtDecode(access_token);
         setLoading(false);
 

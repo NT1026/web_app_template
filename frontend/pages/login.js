@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import Layout from "../components/layout";
-import { login } from "../api/login";
+import { login } from "../api/auth";
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -55,6 +55,34 @@ export default function Login() {
                 </form>
                 {error && <p style={{ color: "red" }}>{error}</p>}
                 {user && <p>Welcome, {user.name}!</p>}
+
+                <form
+                    onSubmit={async (e) => {
+                        e.preventDefault();
+                        const response = await fetch(
+                            `${process.env.NEXT_PUBLIC_API_END_POINT}/auth/logout`,
+                            {
+                                method: "POST",
+                                headers: {
+                                    accept: "application/json",
+                                    "Content-Type": "application/json",
+                                },
+                                credentials: "include",
+                            }
+                        );
+                        if (response.ok) {
+                            setUser(null);
+                            setUsername("");
+                            setPassword("");
+                        } else {
+                            setError("Failed to logout");
+                        }
+                    }}
+                >
+                    <button type="submit" disabled={!user}>
+                        Logout
+                    </button>
+                </form>
             </div>
         </Layout>
     );
